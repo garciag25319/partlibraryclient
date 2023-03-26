@@ -1,0 +1,53 @@
+<html>
+<header>
+  <title>CGHS Robotics Part Library</title>
+  <link rel="stylesheet" href="./index.css">
+</header>
+
+<body>
+  <script type='importmap'>
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3.2.41/dist/vue.esm-browser.js"
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="module">
+    import { createApp, ref } from 'vue';
+    import * as file from './index.js';
+    createApp({
+      setup() {
+        document.getElementById("app").hidden = false;
+        return file;
+      }
+    }).mount('#app')
+  </script>
+  <div id='app' hidden=true>
+    <div class='document-path-div'>
+      <li v-for="folder in docpath" class='document-path'>
+        <span @click="IndexFolder(folder.id,folder.resourceType)">
+          {{folder.name}}
+        </span>
+      </li>
+    </div>
+    <div class='document-list'>
+      <li v-for="doc in documents">
+        <span v-if="doc.jsonType == 'folder'" @click="IndexFolder(doc.id)">
+          <div class='document doc-folder'>
+            <b class="left">{{doc.name}}</b>
+            <b class="right">{{doc.description}}</b>
+          </div>
+        </span>
+        <span v-else-if="doc.jsonType == 'document-summary'" @click="RenderPart(doc.id)">
+          <div class='document doc-part'>
+            <i class="left">{{doc.name}}</i>
+            <i class="right">{{doc.description}}</i>
+          </div>
+        </span>
+      </li>
+    </div>
+  </div>
+</body>
+
+</html>

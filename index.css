@@ -1,0 +1,81 @@
+
+.document-path-div {
+  height: auto;
+  width: 100%;
+  border: solid grey 1px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.document-path{
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.document-path::after{
+  margin-left: 5px;
+  content: "→";
+}
+
+.document-list {
+  background-color: rgb(255, 255, 255);
+  outline: 3px black dotted;
+  list-style: none;
+  width:100%;
+  height: auto;
+}
+
+.document {
+  background-color: rgb(255, 255, 255);
+  border: solid grey 2px;
+  margin-bottom: -2px;
+  margin-top: -2px;
+  width:100%;
+  height: auto;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.document:hover {
+
+}
+
+.doc-folder {
+  
+}
+
+.doc-folder::before {
+  content: "🗂️";
+}
+.doc-folder:hover::before{
+  content: "📑";
+  
+}
+
+.left {
+  text-align: left;
+  padding-left: 2%;
+}
+
+.right {
+  text-align: right;
+  padding-right: 2%;
+}
