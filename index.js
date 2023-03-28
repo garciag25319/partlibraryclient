@@ -6,6 +6,7 @@ const fetch = new Fetch(fetchdata);
 
 const documents = ref([]);
 const docpath = ref([])
+const baseURL = ref(fetchdata.baseURL)
 
 function init() {
   IndexFolder.value();
@@ -29,6 +30,11 @@ const RenderPart = ref((id)=> {
   });
 })
 
+const join = ref((...args)=>{
+  console.log(args)
+  return args.join("");
+})
+
 function error() {
 
 }
@@ -38,5 +44,7 @@ init()
 export {
   documents,
   IndexFolder,
-  docpath
+  docpath,
+  baseURL,
+  join
 };

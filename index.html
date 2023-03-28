@@ -41,6 +41,7 @@
         </span>
         <span v-else-if="doc.jsonType == 'document-summary'" @click="RenderPart(doc.id)">
           <div class='document doc-part'>
+            <img v-if="doc.thumbnail != null" class="thumbnail" :src="join(baseURL, doc.thumbnail)"></img>
             <i class="left">{{doc.name}}</i>
             <i class="right">{{doc.description}}</i>
           </div>
