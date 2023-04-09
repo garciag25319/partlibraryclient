@@ -39,14 +39,33 @@
             <b class="right">{{doc.description}}</b>
           </div>
         </span>
-        <span v-else-if="doc.jsonType == 'document-summary'" @click="RenderPart(doc.id)">
-          <div class='document doc-part'>
+        <span v-else-if="doc.jsonType == 'document-summary'" @click="OpenDocument(doc.id,doc.name)" class="span-document">
+          <div class="thumbnail-container">
             <img v-if="doc.thumbnail != null" class="thumbnail" :src="join(baseURL, doc.thumbnail)"></img>
-            <i class="left">{{doc.name}}</i>
-            <i class="right">{{doc.description}}</i>
+          </div>
+          <div class='document doc-part'>
+            <u class="left">{{doc.name}}</u>
+            <p class="right">{{doc.description}}</p>
           </div>
         </span>
       </li>
+    </div>
+    <div v-if='sharingDocument' class='share-doc'>
+      <div class='share-doc-top-bar'>
+        <button @click="CloseSharing" class='share-doc-close'>✕</button>
+        <div class="share-doc-header-div"><header class="share-doc-header">Share File</header></div>
+      </div>
+      <div class='share-doc-body'>
+        <div class='share-doc-email-div'>
+          <p class='share-doc-direct'>Enter the scream that you would like this document to be shared with.</p>
+          <input class='share-doc-input' v-model="shareEmail" type='text'>
+        </div>
+        <button class='share-doc-button' @click="ShareDocument">DOWNLOAD</button>
+        <div class="tmp-response-container">
+          <span v-show="Warn != ''" class="tmp-response warn">{{Warn}}</span>
+          <span v-show="Confirm != ''" class="tmp-response confirm">{{Confirm}}</span>
+        </div>
+      </div>
     </div>
   </div>
 </body>
