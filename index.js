@@ -8,25 +8,47 @@ const documents = ref([]);
 const docpath = ref([]);
 const baseURL = ref(fetchdata.baseURL);
 const sharingDocument = ref(false);
-const shareEmail = ref("");
+// const shareEmail = ref("");
 const Warn = ref("");
 const Confirm = ref("");
 
+let currentId = ""
+let currentType = ""
 let documentName = ""
 
 function init() {
-  IndexFolder.value();
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  let folder = "";
+  if(params.folder)folder = params.folder
+  IndexFolder.value(folder);
 }
 
 const IndexFolder = ref((id, type) => {
+  currentId = id
+  currentType = type
   fetch.get(id, type || "folder").then((data) => {
     documents.value = data.items;
     docpath.value = data.pathToRoot.reverse();
-    console.log(docpath.value);
+    const newURL = window.location.origin + window.location.pathname + "?folder=" + id
+    window.history.pushState({path: newURL},'',newURL);
   }).catch((err) => {
     error(err);
   });
 });
+
+const LoadMore = ref(()=>{
+  const page = Math.floor(documents.value.length/50)
+  fetch.get(currentId, currentType || "folder",page).then((data) => {
+    documents.value = documents.value.concat(data.items);
+    docpath.value = data.pathToRoot.reverse();
+    const newURL = window.location.origin + window.location.pathname + "?folder=" + id
+    window.history.pushState({path: newURL},'',newURL);
+  }).catch((err) => {
+    error(err);
+  });
+})
 
 const OpenDocument = ref((id,name) => {
   sharingDocument.value = id;
@@ -41,15 +63,14 @@ const ShareDocument = ref(() => {
   // }).catch((err) => {
   //   error(err);
   // });
-  console.log(shareEmail)
+  // console.log(shareEmail)
   // if(shareEmail.value.indexOf("@") === -1)return;
   confirm("Downloading document...")
   fetch.share(sharingDocument.value,documentName).then((res)=>{
-    console.log(res)
-    confirm("Document successfully shared with " + shareEmail)
-    // sharingDocument.value = false;
+    // console.log(res)
+    confirm("Document successfully downloaded")
+    sharingDocument.value = false;
   })
-  
 });
 
 const CloseSharing = ref(() => {
@@ -91,7 +112,6 @@ function confirm(value) {
 
 
 const join = ref((...args) => {
-  console.log(args);
   return args.join("");
 });
 
@@ -111,7 +131,8 @@ export {
   CloseSharing,
   OpenDocument,
   ShareDocument,
-  shareEmail,
+  // shareEmail,
   Warn,
-  Confirm
+  Confirm,
+  LoadMore
 };

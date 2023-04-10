@@ -7,7 +7,8 @@ class Fetch {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
   }
-  async get(id, type) {
+  async get(id, type,page) {
+    page = page || 0;
     const args = [this.baseURL]
     // options.headers = this.headers
     // options.baseURL = this.baseURL;
@@ -15,6 +16,7 @@ class Fetch {
       params: {
         url: id,
         type,
+        page
       }
     });
     const res = await axios.get(...args);
@@ -25,7 +27,6 @@ class Fetch {
     //https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
     const res = await axios.get(this.baseURL + "-sharefile",{responseType: 'blob',params:{document:id}});
     const href = URL.createObjectURL(res.data);
-
     // create "a" HTML element with href to file & click
     const link = document.createElement('a');
     link.href = href;

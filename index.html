@@ -50,15 +50,20 @@
         </span>
       </li>
     </div>
+    <div v-if="documents.length > 2 && documents.length%50 == 0" class='loadmore-container'>
+      <button class='loadmore' @click="LoadMore">
+        Load More
+      </button>
+    </div>
     <div v-if='sharingDocument' class='share-doc'>
       <div class='share-doc-top-bar'>
         <button @click="CloseSharing" class='share-doc-close'>✕</button>
-        <div class="share-doc-header-div"><header class="share-doc-header">Share File</header></div>
+        <div class="share-doc-header-div"><header class="share-doc-header">Get File</header></div>
       </div>
       <div class='share-doc-body'>
         <div class='share-doc-email-div'>
-          <p class='share-doc-direct'>Enter the scream that you would like this document to be shared with.</p>
-          <input class='share-doc-input' v-model="shareEmail" type='text'>
+          <p class='share-doc-direct'>Click download to download the document as an stl. Some documents may not be able to be downloaded. Downloads may take up to 10 seconds.</p>
+          <!-- <input class='share-doc-input' v-model="shareEmail" type='text'> -->
         </div>
         <button class='share-doc-button' @click="ShareDocument">DOWNLOAD</button>
         <div class="tmp-response-container">
