@@ -23,15 +23,16 @@ class Fetch {
     console.log(res)
     return res.data
   }
-  async share(id,name){
+  async share(id,name,queries){
     //https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
-    const res = await axios.get(this.baseURL + "-sharefile",{responseType: 'blob',params:{document:id}});
+    const res = await axios.get(this.baseURL + "-sharefile",{responseType: 'blob',params:{document:id,queries}});
+    console.log(res)
     const href = URL.createObjectURL(res.data);
     // create "a" HTML element with href to file & click
     const link = document.createElement('a');
     link.href = href;
     console.log(name)
-    link.setAttribute('download',name + '.stl'); //or any other extension
+    link.setAttribute('download',name + "." + res.headers["file-extension"]); //or any other extension
     document.body.appendChild(link);
     link.click();
 

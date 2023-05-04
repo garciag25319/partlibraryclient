@@ -11,48 +11,50 @@ const sharingDocument = ref(false);
 // const shareEmail = ref("");
 const Warn = ref("");
 const Confirm = ref("");
+const exportUnits = ref("inch");
+const exportGrouping = ref("true");
 
-let currentId = ""
-let currentType = ""
-let documentName = ""
+let currentId = "";
+let currentType = "";
+let documentName = "";
 
 function init() {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
   let folder = "";
-  if(params.folder)folder = params.folder
+  if (params.folder) folder = params.folder;
   IndexFolder.value(folder);
 }
 
 const IndexFolder = ref((id, type) => {
-  currentId = id
-  currentType = type
+  currentId = id;
+  currentType = type;
   fetch.get(id, type || "folder").then((data) => {
     documents.value = data.items;
     docpath.value = data.pathToRoot.reverse();
-    const newURL = window.location.origin + window.location.pathname + "?folder=" + id
-    window.history.pushState({path: newURL},'',newURL);
+    const newURL = window.location.origin + window.location.pathname + "?folder=" + id;
+    window.history.pushState({ path: newURL }, '', newURL);
   }).catch((err) => {
     error(err);
   });
 });
 
-const LoadMore = ref(()=>{
-  const page = Math.floor(documents.value.length/50)
-  fetch.get(currentId, currentType || "folder",page).then((data) => {
+const LoadMore = ref(() => {
+  const page = Math.floor(documents.value.length / 50);
+  fetch.get(currentId, currentType || "folder", page).then((data) => {
     documents.value = documents.value.concat(data.items);
     docpath.value = data.pathToRoot.reverse();
-    const newURL = window.location.origin + window.location.pathname + "?folder=" + id
-    window.history.pushState({path: newURL},'',newURL);
+    const newURL = window.location.origin + window.location.pathname + "?folder=" + id;
+    window.history.pushState({ path: newURL }, '', newURL);
   }).catch((err) => {
     error(err);
   });
-})
+});
 
-const OpenDocument = ref((id,name) => {
+const OpenDocument = ref((id, name) => {
   sharingDocument.value = id;
-  documentName = name
+  documentName = name;
 });
 
 const ShareDocument = ref(() => {
@@ -65,12 +67,12 @@ const ShareDocument = ref(() => {
   // });
   // console.log(shareEmail)
   // if(shareEmail.value.indexOf("@") === -1)return;
-  confirm("Downloading document...")
-  fetch.share(sharingDocument.value,documentName).then((res)=>{
+  confirm("Downloading document...");
+  fetch.share(sharingDocument.value, documentName,{units:exportUnits.value,grouping:exportGrouping.value == "true"}).then((res) => {
     // console.log(res)
-    confirm("Document successfully downloaded")
+    confirm("Document successfully downloaded");
     sharingDocument.value = false;
-  })
+  });
 });
 
 const CloseSharing = ref(() => {
@@ -134,5 +136,7 @@ export {
   // shareEmail,
   Warn,
   Confirm,
-  LoadMore
+  LoadMore,
+  exportUnits,
+  exportGrouping
 };

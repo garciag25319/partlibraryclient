@@ -1,8 +1,9 @@
 <html>
-<header>
+<head>
   <title>CGHS Robotics Part Library</title>
   <link rel="stylesheet" href="./index.css">
-</header>
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
 
 <body>
   <script type='importmap'>
@@ -64,6 +65,20 @@
         <div class='share-doc-email-div'>
           <p class='share-doc-direct'>Click download to download the document as an stl. Some documents may not be able to be downloaded. Downloads may take up to 10 seconds.</p>
           <!-- <input class='share-doc-input' v-model="shareEmail" type='text'> -->
+        </div>
+        <div class='share-doc-queries'>
+          <select class='share-doc-unit' v-model="exportUnits">
+            <option value="meter">meter</option>
+            <option value="centimeter">centimeter</option>
+            <option value="millimeter">millimeter</option>
+            <option value="inch">inch</option>
+            <option value="foot">foot</option>
+            <option value="yard">yard</option>
+          </select>
+          <!-- <select class="share-doc-grouping" v-model="exportGrouping">
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select> -->
         </div>
         <button class='share-doc-button' @click="ShareDocument">DOWNLOAD</button>
         <div class="tmp-response-container">
